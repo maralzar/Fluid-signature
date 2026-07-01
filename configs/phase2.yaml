@@ -1,0 +1,78 @@
+project:
+  seed: 42
+  data_dir: data
+  results_dir: results
+  checkpoints_dir: checkpoints
+
+graphs:
+  train: lubm1
+  transfer: lubm2
+  ontology: univ-bench.owl
+  scales:
+    lubm1: 3
+    lubm2: 6
+
+fluid:
+  k_hop: 1
+  min_supernodes: 10
+  max_supernodes: 500
+
+rbt:
+  num_rule_families: 8
+  max_depth: 5
+  num_channels: 6
+
+symbolic:
+  max_reasoning_depth: 5
+
+model:
+  hidden_dim: 128
+  sem_dim: 64
+  topo_dim: 32
+  num_layers: 2
+  dropout: 0.1
+  topo_bias_eps: 0.0
+
+training:
+  epochs: 150
+  lr: 0.001
+  weight_decay: 0.0001
+  train_split: 0.8
+  batch_size: 32
+  early_stop_patience: 20
+  loss_weights:
+    behavior: 1.0
+    contrastive: 1.0
+    topology: 0.2
+    orthogonality: 0.5
+
+transfer:
+  bootstrap_samples: 2000
+  mvp_threshold: 0.15
+
+ablations:
+  variants:
+    - name: full
+      loss_weights:
+        behavior: 1.0
+        contrastive: 1.0
+        topology: 0.2
+        orthogonality: 0.5
+    - name: no_orth
+      loss_weights:
+        behavior: 1.0
+        contrastive: 1.0
+        topology: 0.2
+        orthogonality: 0.0
+    - name: no_contrastive
+      loss_weights:
+        behavior: 1.0
+        contrastive: 0.0
+        topology: 0.2
+        orthogonality: 0.5
+    - name: behavior_only
+      loss_weights:
+        behavior: 1.0
+        contrastive: 0.0
+        topology: 0.0
+        orthogonality: 0.0
